@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Next Print NY invoice and receipt." />
+    <title>Invoice | Next Print NY</title>
+    <link rel="icon" href="assets/logo.png" />
+    <link rel="stylesheet" href="styles.css?v=20260617-2325" />
+    <link rel="stylesheet" href="full-wide.css?v=20260621-full-wide" />
+  </head>
+  <body>
+    <div class="page-shell invoice-shell">
+      <section class="reseller-strip" aria-label="Reseller program">
+        <div>
+          <strong data-i18n="home.reseller.title">🔥 Reseller Program Available</strong>
+          <span data-i18n="home.reseller.copy">Get wholesale pricing and grow your own print business.</span>
+        </div>
+        <a href="https://wa.me/12393337935?text=I%20want%20to%20apply%20for%20the%20Next%20Print%20NY%20reseller%20program" target="_blank" rel="noreferrer" data-i18n="home.reseller.button">Apply for Wholesale</a>
+      </section>
+
+      <header class="top-nav site-main-header">
+        <a class="brand" href="index.html" aria-label="Next Print NY home">
+          <img src="assets/logo.png" alt="Next Print NY" />
+        </a>
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav id="menu" class="menu" aria-label="Main navigation">
+          <a href="index.html" data-i18n="home.nav.home">Home</a>
+          <a href="banner-designer/" data-i18n="home.nav.signs">Signs & Banners</a>
+          <a href="tshirt.html" data-i18n="home.nav.shirts">T-Shirts & Apparel</a>
+          <a href="index.html#copies" data-i18n="home.nav.copies">Bulk Copies</a>
+          <a href="printing.html" data-i18n="home.nav.products">Print Products</a>
+          <a href="websites-demo/" data-i18n="home.nav.websites">Websites</a>
+          <a href="tracking.html" data-i18n="tracking.nav">Track Order</a>
+          <a href="about.html" data-i18n="home.nav.about">About Us</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="phone-pill" href="tel:+12393337935">239 333 7935</a>
+          <div class="language-switch" aria-label="Change language">
+            <button type="button" class="active" data-lang="en" data-shirt-lang="en">EN</button>
+            <button type="button" data-lang="es" data-shirt-lang="es">ES</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="invoice-page">
+        <section class="invoice-lookup no-print">
+          <div>
+            <span>Invoice / Receipt</span>
+            <h1>Open customer invoice</h1>
+          </div>
+          <form id="invoiceLookupForm">
+            <label>
+              Order number
+              <input id="invoiceLookupInput" type="text" placeholder="NP-260604-123456" />
+            </label>
+            <button class="action-gradient" type="submit">Open invoice</button>
+          </form>
+          <p id="invoiceStatus" class="tracking-status" aria-live="polite"></p>
+        </section>
+
+        <section id="invoiceCard" class="invoice-card" hidden>
+          <div class="invoice-actions no-print">
+            <a id="invoicePayLink" class="outline-button" href="payments.html">Checkout</a>
+            <a id="invoiceTrackLink" class="outline-button" href="tracking.html">Tracking</a>
+            <button id="invoicePrintButton" class="action-gradient" type="button">Print / Save PDF</button>
+          </div>
+
+          <article class="invoice-paper">
+            <header class="invoice-head">
+              <div>
+                <img src="assets/logo.png" alt="Next Print NY" />
+                <p>Printing · Multiservices · Consulting Agent</p>
+              </div>
+              <div class="invoice-title">
+                <span id="invoiceKind">INVOICE</span>
+                <strong id="invoiceNumber">NP-000000-000000</strong>
+                <small id="invoiceStatusLabel">Received</small>
+              </div>
+            </header>
+
+            <section class="invoice-parties">
+              <div>
+                <span>Bill From</span>
+                <strong>Next Print NY</strong>
+                <p>Brooklyn, NY<br />239 333 7935<br />nextprintny@gmail.com</p>
+              </div>
+              <div>
+                <span>Bill To</span>
+                <strong id="invoiceCustomer">Customer</strong>
+                <p id="invoiceCustomerInfo">Phone and email</p>
+              </div>
+            </section>
+
+            <section class="invoice-meta-grid">
+              <div>
+                <span>Order date</span>
+                <strong id="invoiceOrderDate">-</strong>
+              </div>
+              <div>
+                <span>Delivery date</span>
+                <strong id="invoiceDueDate">-</strong>
+              </div>
+              <div>
+                <span>Payment method</span>
+                <strong>Online checkout / Confirmed total</strong>
+              </div>
+            </section>
+
+            <table class="invoice-table">
+              <thead>
+                <tr>
+                  <th>Service / Product</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="invoiceItems"></tbody>
+            </table>
+
+            <section class="invoice-total-row">
+              <div>
+                <span>Notes</span>
+                <p id="invoiceNotes">Thank you for choosing Next Print NY.</p>
+              </div>
+              <dl>
+                <div>
+                  <dt>Subtotal</dt>
+                  <dd id="invoiceSubtotal">$0.00</dd>
+                </div>
+                <div>
+                  <dt>Tax</dt>
+                  <dd>Included / if applicable</dd>
+                </div>
+                <div class="invoice-grand-total">
+                  <dt>Total</dt>
+                  <dd id="invoiceTotal">$0.00</dd>
+                </div>
+              </dl>
+            </section>
+
+            <footer class="invoice-footer">
+              <p>Use your order number at checkout: <strong id="invoicePaymentNote">NP-000000</strong></p>
+              <p>This invoice is generated from your Next Print NY order record.</p>
+            </footer>
+          </article>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-container">
+          <section class="footer-col footer-brand">
+            <img class="footer-logo" src="assets/logo-clear.svg" alt="Next Print NY" />
+            <p>Printing, Signs, Banners & Custom Design Solutions for your business, events and brand.</p>
+            <div class="socials">
+              <a href="https://www.facebook.com/" target="_blank" rel="noreferrer" aria-label="Facebook">f</a>
+              <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram">◎</a>
+              <a href="mailto:nextprintny@gmail.com" aria-label="Email">✉</a>
+            </div>
+          </section>
+
+          <section class="footer-col">
+            <h4>Quick Links</h4>
+            <a href="index.html">Main Site</a>
+            <a href="banner-designer/">Signs &amp; Banners</a>
+            <a href="banner-designer/designer">Banner Designer</a>
+            <a href="tshirt.html">T-Shirts &amp; Apparel</a>
+            <a href="printing.html">Print Products</a>
+            <a href="contact.html">Contact Us</a>
+          </section>
+
+          <section class="footer-col">
+            <h4>Services</h4>
+            <a href="printing.html#banners">Banners</a>
+            <a href="printing.html#banners">Vinyl Banners</a>
+            <a href="printing.html#banners">Retractable Banners</a>
+            <a href="printing.html#banners">Yard Signs</a>
+            <a href="printing.html">Decals &amp; Stickers</a>
+            <a href="index.html#copies">Printing &amp; Copies</a>
+          </section>
+
+          <section class="footer-col footer-contact">
+            <h4>Contact</h4>
+            <p>☎ 239 333 7935</p>
+            <p>📍 Brooklyn, NY</p>
+            <p>🕘 Mon - Sat: 9AM - 7PM</p>
+            <p>✉ nextprintny@gmail.com</p>
+          </section>
+
+          <section class="footer-col footer-why">
+            <h4>Why Next Print NY?</h4>
+            <p>✔ High Quality Printing</p>
+            <p>✔ Fast Turnaround</p>
+            <p>✔ Competitive Pricing</p>
+            <p>✔ Excellent Customer Service</p>
+          </section>
+        </div>
+
+        <div class="footer-bottom">© 2026 Next Print NY. All Rights Reserved.</div>
+      </footer>
+    </div>
+    <script src="script.js?v=20260617-2325"></script>
+    <script src="invoice.js?v=20260617-2325"></script>
+  </body>
+</html>

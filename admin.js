@@ -1,0 +1,674 @@
+const loginView = document.querySelector("#loginView");
+const dashboardView = document.querySelector("#dashboardView");
+const loginForm = document.querySelector("#loginForm");
+const loginStatus = document.querySelector("#loginStatus");
+const recordForm = document.querySelector("#recordForm");
+const customOrderForm = document.querySelector("#customOrderForm");
+const customOrderStatus = document.querySelector("#customOrderStatus");
+const customDueDate = document.querySelector("#customDueDate");
+const customOrderFiles = document.querySelector("#customOrderFiles");
+const customOrderFileName = document.querySelector("#customOrderFileName");
+const customOrderActions = document.querySelector("#customOrderActions");
+const recordStatus = document.querySelector("#recordStatus");
+const recordsList = document.querySelector("#recordsList");
+const recordCount = document.querySelector("#recordCount");
+const kanbanBoard = document.querySelector("#kanbanBoard");
+const kanbanCount = document.querySelector("#kanbanCount");
+const sessionEmail = document.querySelector("#sessionEmail");
+const logoutButton = document.querySelector("#logoutButton");
+const refreshButton = document.querySelector("#refreshButton");
+const filterButtons = document.querySelectorAll("[data-filter]");
+const openOrders = document.querySelector("#openOrders");
+const incomeTotal = document.querySelector("#incomeTotal");
+const expenseTotal = document.querySelector("#expenseTotal");
+const balanceTotal = document.querySelector("#balanceTotal");
+
+const typeLabels = {
+  order: "Pedido",
+  income: "Ingreso",
+  expense: "Gasto",
+  inventory: "Inventario",
+  customer: "Cliente",
+  document: "Documento",
+};
+
+const statusLabels = {
+  new: "Nuevo",
+  in_progress: "En proceso",
+  waiting: "Esperando",
+  paid: "Pagado",
+  completed: "Completado",
+  cancelled: "Cancelado",
+};
+
+const kanbanStatuses = [
+  { value: "new", label: "Recibida", hint: "Pedido nuevo del cliente" },
+  { value: "in_progress", label: "En revisión", hint: "Revisando detalles y archivo" },
+  { value: "waiting", label: "Esperando", hint: "Falta información, aprobación o pago" },
+  { value: "paid", label: "Pago recibido", hint: "Listo para producir o finalizar" },
+  { value: "completed", label: "Completada", hint: "Trabajo cerrado" },
+  { value: "cancelled", label: "Cancelada", hint: "Pedido detenido o anulado" },
+];
+
+let records = [];
+let activeFilter = "all";
+const adminMaxFileSize = 4 * 1024 * 1024;
+const adminMaxTotalFileSize = 12 * 1024 * 1024;
+
+init();
+setCustomOrderDueDate();
+
+loginForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  setStatus(loginStatus, "Entrando...", "");
+
+  const submitButton = loginForm.querySelector("button");
+  submitButton.disabled = true;
+
+  try {
+    const body = Object.fromEntries(new FormData(loginForm));
+    const { response, data } = await fetchJson("/api/admin?action=login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) throw new Error(data.error || "No se pudo entrar");
+    window.location.href = `/admin.html?session=ok&t=${Date.now()}`;
+  } catch (error) {
+    setStatus(loginStatus, error.message, "error");
+  } finally {
+    submitButton.disabled = false;
+  }
+});
+
+recordForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  setStatus(recordStatus, "Guardando...", "");
+
+  const submitButton = recordForm.querySelector("button");
+  submitButton.disabled = true;
+
+  try {
+    const body = Object.fromEntries(new FormData(recordForm));
+    const { response, data } = await fetchJson("/api/admin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) throw new Error(data.error || "No se pudo guardar");
+    recordForm.reset();
+    setStatus(recordStatus, data.warning ? `Registro guardado. ${data.warning}` : "Registro guardado.", "success");
+    await loadRecords();
+  } catch (error) {
+    setStatus(recordStatus, error.message, "error");
+  } finally {
+    submitButton.disabled = false;
+  }
+});
+
+customOrderFiles?.addEventListener("change", () => {
+  const files = Array.from(customOrderFiles.files || []);
+
+  if (!files.length) {
+    customOrderFileName.textContent = "PDF, JPG, PNG o archivos de diseño. Opcional.";
+    customOrderFileName.classList.remove("error");
+    return;
+  }
+
+  const oversizedFile = files.find((file) => file.size > adminMaxFileSize);
+  const totalSize = files.reduce((total, file) => total + file.size, 0);
+
+  if (oversizedFile || totalSize > adminMaxTotalFileSize) {
+    customOrderFiles.value = "";
+    customOrderFileName.textContent = oversizedFile
+      ? "Cada archivo debe pesar menos de 4 MB."
+      : "Todos los archivos juntos deben pesar menos de 12 MB.";
+    customOrderFileName.classList.add("error");
+    return;
+  }
+
+  customOrderFileName.classList.remove("error");
+  customOrderFileName.textContent = files.map((file) => file.name).join(", ");
+});
+
+customOrderForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  setStatus(customOrderStatus, "Creando orden custom...", "");
+  renderCustomOrderActions("");
+
+  const submitButton = customOrderForm.querySelector("button[type='submit']");
+  submitButton.disabled = true;
+
+  try {
+    const formData = new FormData(customOrderForm);
+    const files = Array.from(customOrderFiles?.files || []);
+    const description = [
+      `Custom order instructions: ${formData.get("description")}`,
+      formData.get("internal_notes") ? `Internal notes: ${formData.get("internal_notes")}` : "",
+      formData.get("quantity") ? `Quantity: ${formData.get("quantity")}` : "",
+      formData.get("amount") ? `Price: $${Number(formData.get("amount") || 0).toFixed(2)}` : "",
+      files.length ? `Files: ${files.map((file) => file.name).join(", ")}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+    const body = {
+      type: "order",
+      status: "new",
+      title: formData.get("title"),
+      customer_name: formData.get("customer_name"),
+      customer_phone: formData.get("customer_phone"),
+      customer_email: formData.get("customer_email"),
+      due_date: formData.get("due_date"),
+      amount: formData.get("amount"),
+      quantity: formData.get("quantity"),
+      description,
+      send_invoice: formData.get("send_invoice") === "on",
+      files: await Promise.all(
+        files.map(async (file) => ({
+          name: file.name,
+          content: await fileToBase64(file),
+        }))
+      ),
+    };
+    const { response, data } = await fetchJson("/api/admin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) throw new Error(data.error || "No se pudo crear la orden custom");
+
+    const createdRecord = Array.isArray(data.records) ? data.records[0] : null;
+    const orderNumber = createdRecord ? getOrderNumber(createdRecord) : "";
+    customOrderForm.reset();
+    setCustomOrderDueDate();
+    if (customOrderFileName) customOrderFileName.textContent = "PDF, JPG, PNG o archivos de diseño. Opcional.";
+    renderCustomOrderActions(orderNumber);
+    setStatus(
+      customOrderStatus,
+      data.warning
+        ? `Orden custom creada${orderNumber ? `: ${orderNumber}` : ""}. ${data.warning}`
+        : `Orden custom creada${orderNumber ? `: ${orderNumber}` : ""}.`,
+      "success"
+    );
+    await loadRecords();
+  } catch (error) {
+    setStatus(customOrderStatus, error.message, "error");
+  } finally {
+    submitButton.disabled = false;
+  }
+});
+
+logoutButton?.addEventListener("click", async () => {
+  await fetch("/api/admin?action=logout", { method: "POST" });
+  dashboardView.hidden = true;
+  loginView.hidden = false;
+});
+
+refreshButton?.addEventListener("click", loadRecords);
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    activeFilter = button.dataset.filter;
+    filterButtons.forEach((item) => item.classList.toggle("active", item === button));
+    renderRecords();
+  });
+});
+
+recordsList?.addEventListener("click", async (event) => {
+  const button = event.target.closest("button[data-action]");
+  if (!button) return;
+
+  const id = button.dataset.id;
+  const action = button.dataset.action;
+
+  if (action === "status") {
+    await updateRecord(id, { status: button.dataset.status });
+  }
+
+  if (action === "complete") {
+    await updateRecord(id, { status: "completed" });
+  }
+
+  if (action === "delete") {
+    if (!window.confirm("¿Seguro que quieres borrar este registro?")) return;
+    await deleteRecord(id);
+  }
+
+  if (action === "copy-order") {
+    await copyText(button.dataset.order || "");
+    button.textContent = "Copiado";
+    window.setTimeout(() => {
+      button.textContent = "Copiar #";
+    }, 1300);
+  }
+});
+
+recordsList?.addEventListener("change", async (event) => {
+  const select = event.target.closest("select[data-action='status']");
+  if (!select) return;
+
+  await updateRecord(select.dataset.id, { status: select.value });
+});
+
+kanbanBoard?.addEventListener("change", async (event) => {
+  const select = event.target.closest("select[data-action='kanban-status']");
+  if (!select) return;
+
+  await updateRecord(select.dataset.id, { status: select.value });
+});
+
+async function init() {
+  try {
+    const { data } = await fetchJson("/api/admin?action=login");
+
+    if (data.authenticated) {
+      showDashboard(data.email);
+    } else {
+      loginView.hidden = false;
+      dashboardView.hidden = true;
+    }
+  } catch {
+    loginView.hidden = false;
+    dashboardView.hidden = true;
+  }
+}
+
+function showDashboard(email) {
+  loginView.hidden = true;
+  dashboardView.hidden = false;
+  sessionEmail.textContent = email ? `Sesión: ${email}` : "Sesión privada";
+  setStatus(recordStatus, "Cargando registros...", "");
+  loadRecords();
+}
+
+function setCustomOrderDueDate() {
+  if (!customDueDate) return;
+  const date = new Date();
+  date.setDate(date.getDate() + 7);
+  customDueDate.value = toDateInputValue(date);
+}
+
+function renderCustomOrderActions(orderNumber) {
+  if (!customOrderActions) return;
+
+  if (!orderNumber) {
+    customOrderActions.hidden = true;
+    customOrderActions.innerHTML = "";
+    return;
+  }
+
+  const invoiceUrl = `invoice.html?order=${encodeURIComponent(orderNumber)}`;
+  const printUrl = `${invoiceUrl}&print=1`;
+  const trackingUrl = `tracking.html?order=${encodeURIComponent(orderNumber)}`;
+  customOrderActions.innerHTML = `
+    <a href="${escapeAttribute(invoiceUrl)}" target="_blank" rel="noreferrer">Abrir invoice</a>
+    <a href="${escapeAttribute(printUrl)}" target="_blank" rel="noreferrer">Imprimir invoice</a>
+    <a href="${escapeAttribute(trackingUrl)}" target="_blank" rel="noreferrer">Tracking</a>
+  `;
+  customOrderActions.hidden = false;
+}
+
+async function loadRecords() {
+  refreshButton.disabled = true;
+
+  try {
+    const { response, data } = await fetchJson("/api/admin");
+
+    if (!response.ok) throw new Error(data.error || "No se pudieron cargar los registros");
+    records = Array.isArray(data.records) ? data.records : [];
+    renderRecords();
+    setStatus(recordStatus, "", "");
+  } catch (error) {
+    records = [];
+    renderRecords();
+    setStatus(recordStatus, error.message, "error");
+  } finally {
+    refreshButton.disabled = false;
+  }
+}
+
+async function updateRecord(id, changes) {
+  const { response, data } = await fetchJson("/api/admin", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, ...changes }),
+  });
+
+  if (!response.ok) {
+    setStatus(recordStatus, data.error || "No se pudo actualizar", "error");
+    return;
+  }
+
+  if (data.warning) setStatus(recordStatus, data.warning, "error");
+  await loadRecords();
+}
+
+async function deleteRecord(id) {
+  const { response, data } = await fetchJson(`/api/admin?id=${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    setStatus(recordStatus, data.error || "No se pudo borrar", "error");
+    return;
+  }
+
+  await loadRecords();
+}
+
+async function fetchJson(url, options = {}) {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 15000);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : {};
+    return { response, data };
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error("El servidor tardó demasiado. Refresca la página e intenta otra vez.");
+    }
+
+    throw error;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
+function renderRecords() {
+  renderMetrics();
+  renderKanbanBoard();
+
+  const visibleRecords =
+    activeFilter === "all" ? records : records.filter((record) => record.type === activeFilter);
+
+  recordCount.textContent = `${visibleRecords.length} ${visibleRecords.length === 1 ? "registro" : "registros"}`;
+
+  if (!visibleRecords.length) {
+    recordsList.innerHTML = `<div class="empty-state">No hay registros en esta sección.</div>`;
+    return;
+  }
+
+  recordsList.innerHTML = visibleRecords.map(renderRecord).join("");
+}
+
+function renderKanbanBoard() {
+  const orderRecords = records.filter((record) => record.type === "order");
+  kanbanCount.textContent = `${orderRecords.length} ${orderRecords.length === 1 ? "pedido" : "pedidos"}`;
+
+  if (!orderRecords.length) {
+    kanbanBoard.innerHTML = `<div class="empty-state">Todavía no hay pedidos para organizar.</div>`;
+    return;
+  }
+
+  kanbanBoard.innerHTML = kanbanStatuses
+    .map((status) => renderKanbanColumn(status, orderRecords.filter((record) => record.status === status.value)))
+    .join("");
+}
+
+function renderKanbanColumn(status, columnRecords) {
+  const cards = columnRecords.length
+    ? columnRecords.map(renderKanbanCard).join("")
+    : `<div class="kanban-empty">Sin pedidos</div>`;
+
+  return `
+    <section class="kanban-column">
+      <div class="kanban-column-header">
+        <div>
+          <h3>${escapeHtml(status.label)}</h3>
+          <p>${escapeHtml(status.hint)}</p>
+        </div>
+        <strong>${columnRecords.length}</strong>
+      </div>
+      <div class="kanban-stack">
+        ${cards}
+      </div>
+    </section>
+  `;
+}
+
+function renderKanbanCard(record) {
+  const createdAt = record.created_at ? new Date(record.created_at).toLocaleDateString("es-US") : "";
+  const amount = getRecordAmount(record);
+  const orderNumber = getOrderNumber(record);
+  const quickLinks = renderQuickLinks(record, orderNumber, { compact: true });
+  const statusOptions = Object.entries(statusLabels)
+    .map(([value, label]) => `<option value="${value}" ${record.status === value ? "selected" : ""}>${label}</option>`)
+    .join("");
+
+  return `
+    <article class="kanban-card">
+      <div>
+        <h4>${escapeHtml(record.title || "Pedido sin título")}</h4>
+        <p>${escapeHtml(record.customer_name || "Cliente sin nombre")}</p>
+      </div>
+      <div class="kanban-card-meta">
+        ${orderNumber ? `<span>${escapeHtml(orderNumber)}</span>` : ""}
+        ${createdAt ? `<span>${createdAt}</span>` : ""}
+        ${amount ? `<span>${money(amount)}</span>` : ""}
+      </div>
+      ${quickLinks}
+      <label class="kanban-status">
+        Cambiar estado
+        <select data-action="kanban-status" data-id="${escapeAttribute(record.id)}">
+          ${statusOptions}
+        </select>
+      </label>
+    </article>
+  `;
+}
+
+function renderRecord(record) {
+  const amount = getRecordAmount(record);
+  const quantity = Number(record.quantity || 0);
+  const createdAt = record.created_at ? new Date(record.created_at).toLocaleString("es-US") : "";
+  const orderNumber = getOrderNumber(record);
+  const quickLinks = renderQuickLinks(record, orderNumber);
+  const statusOptions = Object.entries(statusLabels)
+    .map(([value, label]) => `<option value="${value}" ${record.status === value ? "selected" : ""}>${label}</option>`)
+    .join("");
+
+  return `
+    <article class="record-card">
+      <div class="record-top">
+        <div>
+          <h3 class="record-title">${escapeHtml(record.title || "Sin título")}</h3>
+          <p class="record-meta">${escapeHtml(record.customer_name || "Sin cliente")} ${record.customer_phone ? `- ${escapeHtml(record.customer_phone)}` : ""}</p>
+        </div>
+        <strong>${amount ? money(amount) : ""}</strong>
+      </div>
+      <div class="pill-row">
+        <span class="pill">${typeLabels[record.type] || record.type}</span>
+        <span class="pill">${statusLabels[record.status] || record.status}</span>
+        ${orderNumber ? `<span class="pill">${escapeHtml(orderNumber)}</span>` : ""}
+        ${quantity ? `<span class="pill">Cant. ${quantity}</span>` : ""}
+        ${record.due_date ? `<span class="pill">${escapeHtml(record.due_date)}</span>` : ""}
+      </div>
+      ${record.description ? `<p class="record-description">${escapeHtml(record.description)}</p>` : ""}
+      <p class="record-meta">${createdAt}</p>
+      ${quickLinks}
+      <label class="status-editor">
+        Estado de tracking
+        <select data-action="status" data-id="${escapeAttribute(record.id)}">
+          ${statusOptions}
+        </select>
+      </label>
+      <div class="record-actions">
+        <button type="button" data-action="status" data-status="in_progress" data-id="${escapeAttribute(record.id)}">En revisión</button>
+        <button type="button" data-action="status" data-status="waiting" data-id="${escapeAttribute(record.id)}">Esperando</button>
+        <button class="paid-button" type="button" data-action="status" data-status="paid" data-id="${escapeAttribute(record.id)}">Pago recibido</button>
+        <button class="complete-button" type="button" data-action="complete" data-id="${escapeAttribute(record.id)}">Completar</button>
+        <button class="cancel-button" type="button" data-action="status" data-status="cancelled" data-id="${escapeAttribute(record.id)}">Cancelar</button>
+        <button class="delete-button" type="button" data-action="delete" data-id="${escapeAttribute(record.id)}">Borrar</button>
+      </div>
+    </article>
+  `;
+}
+
+function renderQuickLinks(record, orderNumber, options = {}) {
+  const compact = Boolean(options.compact);
+  const phone = normalizePhone(record.customer_phone);
+  const email = String(record.customer_email || "").trim();
+  const trackingUrl = orderNumber ? `tracking.html?order=${encodeURIComponent(orderNumber)}` : "tracking.html";
+  const invoiceUrl = orderNumber ? `invoice.html?order=${encodeURIComponent(orderNumber)}` : "invoice.html";
+  const message = buildCustomerMessage(record, orderNumber);
+  const links = [];
+
+  if (phone) {
+    links.push(
+      `<a href="https://wa.me/${phone}?text=${encodeURIComponent(message)}" target="_blank" rel="noreferrer">WhatsApp</a>`
+    );
+    links.push(`<a href="tel:+${phone}">Llamar</a>`);
+  }
+
+  if (email) {
+    links.push(
+      `<a href="mailto:${escapeAttribute(email)}?subject=${encodeURIComponent(`Next Print NY ${orderNumber || "Order"}`)}&body=${encodeURIComponent(message)}">Email</a>`
+    );
+  }
+
+  if (orderNumber) {
+    links.push(`<a href="${escapeAttribute(trackingUrl)}" target="_blank" rel="noreferrer">Tracking</a>`);
+    links.push(`<a href="${escapeAttribute(invoiceUrl)}" target="_blank" rel="noreferrer">Invoice</a>`);
+    if (!compact) {
+      links.push(
+        `<button type="button" data-action="copy-order" data-order="${escapeAttribute(orderNumber)}">Copiar #</button>`
+      );
+    }
+  }
+
+  if (record.file_url) {
+    links.push(`<a href="${escapeAttribute(record.file_url)}" target="_blank" rel="noreferrer">Archivo</a>`);
+  }
+
+  if (!links.length) return "";
+
+  return `<div class="${compact ? "quick-links compact" : "quick-links"}">${links.join("")}</div>`;
+}
+
+function buildCustomerMessage(record, orderNumber) {
+  const name = record.customer_name ? `Hi ${record.customer_name},` : "Hi,";
+  const orderLine = orderNumber ? `we are contacting you about order ${orderNumber}.` : "we are contacting you about your order.";
+  const status = statusLabels[record.status] ? `Status: ${statusLabels[record.status]}.` : "";
+  return `${name} ${orderLine} ${status} Next Print NY`;
+}
+
+function getOrderNumber(record) {
+  const source = `${record.title || ""}\n${record.description || ""}`;
+  const match = source.match(/\bNP-\d{6}-\d{6}\b/i);
+  return match ? match[0].toUpperCase() : "";
+}
+
+function normalizePhone(phone) {
+  const digits = String(phone || "").replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.length === 10) return `1${digits}`;
+  return digits;
+}
+
+async function copyText(text) {
+  if (!text) return;
+
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const input = document.createElement("input");
+  input.value = text;
+  document.body.append(input);
+  input.select();
+  document.execCommand("copy");
+  input.remove();
+}
+
+function renderMetrics() {
+  const openOrderCount = records.filter(
+    (record) => record.type === "order" && !["completed", "cancelled"].includes(record.status)
+  ).length;
+  const income = sumByType("income") + sumPaidOrders();
+  const expenses = sumByType("expense");
+
+  openOrders.textContent = openOrderCount;
+  incomeTotal.textContent = money(income);
+  expenseTotal.textContent = money(expenses);
+  balanceTotal.textContent = money(income - expenses);
+}
+
+function sumByType(type) {
+  return records
+    .filter((record) => record.type === type)
+    .reduce((total, record) => total + getRecordAmount(record), 0);
+}
+
+function sumPaidOrders() {
+  return records
+    .filter((record) => record.type === "order" && ["paid", "completed"].includes(record.status))
+    .reduce((total, record) => total + getRecordAmount(record), 0);
+}
+
+function getRecordAmount(record) {
+  const amount = Number(record.amount || 0);
+  if (Number.isFinite(amount) && amount > 0) return amount;
+  return extractPriceFromDescription(record.description);
+}
+
+function extractPriceFromDescription(description) {
+  const text = String(description || "");
+  const priceLine = text.match(/(?:price|precio|suggested sale price)\s*:\s*\$?\s*([0-9,]+(?:\.[0-9]{1,2})?)/i);
+  if (!priceLine) return 0;
+
+  const amount = Number(priceLine[1].replace(/,/g, ""));
+  return Number.isFinite(amount) ? amount : 0;
+}
+
+function toDateInputValue(date) {
+  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return localDate.toISOString().slice(0, 10);
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result || "");
+      resolve(result.split(",")[1] || "");
+    };
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+function setStatus(element, message, tone) {
+  if (!element) return;
+  element.textContent = message;
+  element.className = `status-text ${tone || ""}`.trim();
+}
+
+function money(value) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(value || 0);
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function escapeAttribute(value) {
+  return escapeHtml(value).replace(/`/g, "&#096;");
+}

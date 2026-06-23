@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Printing services in Brooklyn: business cards, flyers, banners, signs, stickers, menus, shirts and custom print orders."
+    />
+    <title>Printing Services | Next Print NY</title>
+    <link rel="icon" href="assets/logo.png" />
+    <link rel="stylesheet" href="styles.css?v=20260618-printing-template" />
+    <link rel="stylesheet" href="full-wide.css?v=20260621-full-wide" />
+  </head>
+  <body class="printing-page">
+    <div class="page-shell">
+      <section class="reseller-strip" aria-label="Reseller program">
+        <div>
+          <strong data-i18n="home.reseller.title">🔥 Reseller Program Available</strong>
+          <span data-i18n="home.reseller.copy">Get wholesale pricing and grow your own print business.</span>
+        </div>
+        <a href="https://wa.me/12393337935?text=I%20want%20to%20apply%20for%20the%20Next%20Print%20NY%20reseller%20program" target="_blank" rel="noreferrer" data-i18n="home.reseller.button">Apply for Wholesale</a>
+      </section>
+
+      <header class="top-nav site-main-header">
+        <a class="brand" href="index.html" aria-label="Next Print NY home">
+          <img src="assets/logo.png" alt="Next Print NY" />
+        </a>
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav id="menu" class="menu" aria-label="Main navigation">
+          <a href="index.html" data-i18n="home.nav.home">Home</a>
+          <a href="printing.html#banners" data-i18n="home.nav.signs">Signs & Banners</a>
+          <a href="tshirt.html" data-i18n="home.nav.shirts">T-Shirts & Apparel</a>
+          <a href="index.html#copies" data-i18n="home.nav.copies">Bulk Copies</a>
+          <a class="active" href="printing.html" data-i18n="home.nav.products">Print Products</a>
+          <a href="websites-demo/" data-i18n="home.nav.websites">Websites</a>
+          <a href="tracking.html" data-i18n="tracking.nav">Track Order</a>
+          <a href="about.html" data-i18n="home.nav.about">About Us</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="phone-pill" href="tel:+12393337935">239 333 7935</a>
+          <div class="language-switch" aria-label="Change language">
+            <button type="button" class="active" data-lang="en" data-shirt-lang="en">EN</button>
+            <button type="button" data-lang="es" data-shirt-lang="es">ES</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="service-detail-page printing-detail">
+        <section class="shirt-store-hero print-products-hero">
+          <div class="shirt-hero-copy">
+            <p class="breadcrumb" data-i18n="printingPage.breadcrumb">Home &gt; Print Products</p>
+            <span id="printingHeroKicker" data-i18n="printingPage.kicker">Business printing</span>
+            <h1>
+              <span id="printingHeroTitleTop" data-i18n="printingPage.heroTitleTop">Print Products</span>
+              <strong id="printingHeroTitleBottom" data-i18n="printingPage.heroTitleBottom">Made To Impress</strong>
+            </h1>
+            <p id="printingHeroCopy" data-i18n="printingPage.heroCopy">
+              Business cards, flyers, menus, stickers and marketing prints prepared with clean color,
+              sharp details and fast local service in Brooklyn.
+            </p>
+            <div id="printingHeroBenefits" class="shirt-benefit-row" aria-label="Print product benefits">
+              <span><b data-i18n="printingPage.benefit1Title">Premium Cardstock</b><small data-i18n="printingPage.benefit1Text">Glossy or matte finish</small></span>
+              <span><b data-i18n="printingPage.benefit2Title">Flyers &amp; Menus</b><small data-i18n="printingPage.benefit2Text">Promote events fast</small></span>
+              <span><b data-i18n="printingPage.benefit3Title">Sharp Full Color</b><small data-i18n="printingPage.benefit3Text">Clean brand presentation</small></span>
+              <span><b data-i18n="printingPage.benefit4Title">Local Turnaround</b><small data-i18n="printingPage.benefit4Text">Brooklyn pickup available</small></span>
+            </div>
+            <div class="shirt-hero-actions">
+              <a id="printingHeroPrimary" class="action-gradient" href="#productList" data-i18n="printingPage.quote">Choose product</a>
+              <a id="printingHeroSecondary" class="outline-button shirt-outline" href="quote.html" data-i18n="printingPage.upload">Request a quote</a>
+            </div>
+            <p class="np-rating">★★★★★ <span id="printingHeroRating" data-i18n="printingPage.rating">Trusted by local businesses and event teams</span></p>
+          </div>
+          <div class="shirt-hero-visual print-products-visual" aria-label="Print product examples">
+            <div class="print-product-showcase">
+              <img id="printingHeroImageOne" src="assets/printing-business-cards-ai.webp" alt="Business cards" />
+              <img id="printingHeroImageTwo" src="assets/printing-flyers-ai.webp" alt="Flyers" />
+            </div>
+            <div id="printingPerfectFor" class="perfect-for">
+              <strong id="printingPerfectForTitle" data-i18n="printingPage.perfectFor">Perfect for</strong>
+              <span>Businesses</span>
+              <span>Events</span>
+              <span>Restaurants</span>
+              <span>Promotions</span>
+              <span>Startups</span>
+              <span>Local Shops</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="product-builder" aria-label="Printing product catalog">
+          <aside class="product-sidebar">
+            <span data-i18n="printingCatalog.products">Products</span>
+            <div id="productList" class="product-list"></div>
+          </aside>
+
+          <section class="product-detail-card">
+            <div class="product-preview">
+              <div id="productArt" class="product-art"></div>
+              <div>
+                <span id="productKicker" class="service-kicker">Price options</span>
+                <h2 id="productTitle">Business Cards</h2>
+                <p id="productHook" data-i18n="printingCatalog.copy">
+                  Select a product and quantity to see the suggested sale price. Start an order and we will confirm details before production.
+                </p>
+                <div class="product-info-grid">
+                  <article>
+                    <span>Material</span>
+                    <p id="productMaterial">Premium print material.</p>
+                  </article>
+                  <article>
+                    <span>Benefits</span>
+                    <ul id="productBenefits"></ul>
+                  </article>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-order-panel">
+              <label>
+                <span data-i18n="printingCatalog.size">Size</span>
+                <select id="productSize"></select>
+              </label>
+              <div id="bannerCustomSizeFields" class="banner-custom-size-fields" hidden>
+                <label><span>Width (ft)</span><input id="bannerCustomWidth" type="number" min="1" max="100" step="0.5" value="2" /></label>
+                <label><span>Height (ft)</span><input id="bannerCustomHeight" type="number" min="1" max="100" step="0.5" value="4" /></label>
+                <label><span>Quantity</span><input id="bannerCustomQuantity" type="number" min="1" max="100" step="1" value="1" /></label>
+              </div>
+              <div id="productConfigurationOptions" class="product-configuration-options" hidden>
+                <label id="roundedCornersField">
+                  <span data-i18n="printingCatalog.rounded">Rounded Corners</span>
+                  <select id="cardRoundedCorners">
+                    <option value="No" data-i18n="printingCatalog.no">No</option>
+                    <option value="Yes" data-i18n="printingCatalog.yes">Yes</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.printedSide">Printed Side</span>
+                  <select id="cardPrintedSide">
+                    <option value="Front Only" data-i18n="printingCatalog.frontOnly">Front Only</option>
+                    <option value="Front and Back" selected data-i18n="printingCatalog.frontBack">Front and Back</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.paperType">Paper Type</span>
+                  <select id="cardPaperType">
+                    <option value="14 pt. Cardstock">14 pt. Cardstock</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.coating">Coating</span>
+                  <select id="cardCoating">
+                    <option value="High Gloss" data-i18n="printingCatalog.highGloss">High Gloss</option>
+                    <option value="Matte" data-i18n="printingCatalog.matte">Matte</option>
+                  </select>
+                </label>
+              </div>
+              <div id="stickerConfigurationOptions" class="product-configuration-options" hidden>
+                <label>
+                  <span data-i18n="printingCatalog.frontSide">Front Side</span>
+                  <select id="stickerFrontSide">
+                    <option value="Full Color" data-i18n="printingCatalog.fullColor">Full Color</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.backSide">Back Side</span>
+                  <select id="stickerBackSide">
+                    <option value="No Printing" data-i18n="printingCatalog.noPrinting">No Printing</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.material">Material</span>
+                  <select id="stickerMaterial">
+                    <option value="High Gloss White Outdoor Vinyl" data-i18n="printingCatalog.outdoorVinyl">High Gloss White Outdoor Vinyl</option>
+                  </select>
+                </label>
+              </div>
+              <div id="menuConfigurationOptions" class="product-configuration-options" hidden>
+                <label>
+                  <span data-i18n="printingCatalog.frontSide">Front Side</span>
+                  <select id="menuFrontSide">
+                    <option value="Full Color" data-i18n="printingCatalog.fullColor">Full Color</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.backSide">Back Side</span>
+                  <select id="menuBackSide">
+                    <option value="Full Color" data-i18n="printingCatalog.fullColor">Full Color</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.paperStock">Paper Stock</span>
+                  <select id="menuPaperStock">
+                    <option value="80 lb. Paper">80 lb. Paper</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.coating">Coating</span>
+                  <select id="menuCoating">
+                    <option value="Gloss Both Sides" data-i18n="printingCatalog.glossBothSides">Gloss Both Sides</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.folding">Folding Option</span>
+                  <select id="menuFolding">
+                    <option value="Half Fold" data-i18n="printingCatalog.halfFold">Half Fold</option>
+                    <option value="Tri-Fold" data-i18n="printingCatalog.triFold">Tri-Fold</option>
+                    <option value="Z-Fold" data-i18n="printingCatalog.zFold">Z-Fold</option>
+                    <option value="Gate Fold" data-i18n="printingCatalog.gateFold">Gate Fold</option>
+                    <option value="French Fold" data-i18n="printingCatalog.frenchFold">French Fold</option>
+                    <option value="Double Parallel Fold" data-i18n="printingCatalog.doubleParallelFold">Double Parallel Fold</option>
+                    <option value="Parallel Map Fold" data-i18n="printingCatalog.parallelMapFold">Parallel Map Fold</option>
+                  </select>
+                </label>
+              </div>
+              <div id="bannerConfigurationOptions" class="product-configuration-options" hidden>
+                <label>
+                  <span data-i18n="printingCatalog.frontSide">Front Side</span>
+                  <select id="bannerFrontSide">
+                    <option value="Full Color" data-i18n="printingCatalog.fullColor">Full Color</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.backSide">Back Side</span>
+                  <select id="bannerBackSide">
+                    <option value="No Printing" data-i18n="printingCatalog.noPrinting">No Printing</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.material">Material</span>
+                  <select id="bannerMaterial">
+                    <option value="13 oz. Standard Vinyl">13 oz. Standard Vinyl</option>
+                    <option value="Window Vinyl">Window Vinyl</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.treatments">Treatments</span>
+                  <select id="bannerTreatment">
+                    <option value="Not available" hidden>Not available</option>
+                    <option value="None" data-i18n="printingCatalog.none">None</option>
+                    <option value="Hem with Grommets" data-i18n="printingCatalog.hemGrommets">Hem with Grommets</option>
+                    <option value="Hem without Grommets" data-i18n="printingCatalog.hemNoGrommets">Hem without Grommets</option>
+                    <option value="Pole Pockets" data-i18n="printingCatalog.polePockets">Pole Pockets</option>
+                  </select>
+                </label>
+              </div>
+              <div id="hangerConfigurationOptions" class="product-configuration-options" hidden>
+                <label>
+                  <span data-i18n="printingCatalog.frontSide">Front Side</span>
+                  <select id="hangerFrontSide">
+                    <option value="Full Color" data-i18n="printingCatalog.fullColor">Full Color</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.backSide">Back Side</span>
+                  <select id="hangerBackSide">
+                    <option value="Full Color" data-i18n="printingCatalog.fullColor">Full Color</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.paperStock">Paper Stock</span>
+                  <select id="hangerPaperStock">
+                    <option value="14 pt. Cardstock">14 pt. Cardstock</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.coating">Coating</span>
+                  <select id="hangerCoating">
+                    <option value="High Gloss UV" data-i18n="printingCatalog.highGlossUv">High Gloss UV</option>
+                    <option value="Matte" data-i18n="printingCatalog.matte">Matte</option>
+                  </select>
+                </label>
+              </div>
+              <div id="retractableConfigurationOptions" class="product-configuration-options" hidden>
+                <label>
+                  <span data-i18n="printingCatalog.displayOptions">Display Options</span>
+                  <select id="retractableDisplayOptions">
+                    <option value="Stand + 1 Banner (Single Sided)" data-i18n="printingCatalog.singleSidedStand">Stand + 1 Banner (Single Sided)</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.bannerStand">Banner Stand</span>
+                  <select id="retractableBannerStand">
+                    <option value='Standard Retractable 33"' data-i18n="printingCatalog.standardRetractable">Standard Retractable 33"</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.frontSide">Front Side</span>
+                  <select id="retractableFrontSide">
+                    <option value="Full Color" data-i18n="printingCatalog.fullColor">Full Color</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.backSide">Back Side</span>
+                  <select id="retractableBackSide">
+                    <option value="No Printing" data-i18n="printingCatalog.noPrinting">No Printing</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.paperStock">Paper Stock</span>
+                  <select id="retractableMaterial">
+                    <option value="13 oz. Smooth Blockout Vinyl" data-i18n="printingCatalog.smoothBlockoutVinyl">13 oz. Smooth Blockout Vinyl</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.panels">Panels</span>
+                  <select id="retractablePanels">
+                    <option value="1 Panel" data-i18n="printingCatalog.onePanel">1 Panel</option>
+                  </select>
+                </label>
+              </div>
+              <div id="yardSignConfigurationOptions" class="product-configuration-options" hidden>
+                <label>
+                  <span data-i18n="printingCatalog.frontSide">Front Side</span>
+                  <select id="yardSignFrontSide">
+                    <option value="Full Color" data-i18n="printingCatalog.fullColor">Full Color</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.backSide">Back Side</span>
+                  <select id="yardSignBackSide">
+                    <option value="No Printing" data-i18n="printingCatalog.noPrinting">No Printing</option>
+                    <option value="Full Color" data-i18n="printingCatalog.fullColor">Full Color</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.material">Material</span>
+                  <select id="yardSignMaterial">
+                    <option value="4 mm Coroplast Board" data-i18n="printingCatalog.coroplastBoard">4 mm Coroplast Board</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.hWire">H-Wire</span>
+                  <select id="yardSignWire">
+                    <option value='XL 9 Gauge H-Wire (24" tall x 10" wide)' data-i18n="printingCatalog.xlHWire">XL 9 Gauge H-Wire (24" tall x 10" wide)</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="printingCatalog.grommets">Grommets</span>
+                  <select id="yardSignGrommets">
+                    <option value="None" data-i18n="printingCatalog.none">None</option>
+                  </select>
+                </label>
+              </div>
+              <label>
+                <span data-i18n="printingCatalog.quantity">Quantity</span>
+                <select id="productQuantity"></select>
+              </label>
+              <div class="selected-price">
+                <span data-i18n="printingCatalog.suggested">Suggested sale price</span>
+                <strong id="productPrice">$35.00</strong>
+              </div>
+              <a id="productOrderLink" class="action-gradient" href="order.html" data-i18n="printingCatalog.start">Start order with this product</a>
+              <a id="productUploadLink" class="product-upload-link" href="print-products-editor.html">Upload print-ready file</a>
+            </div>
+          </section>
+        </section>
+
+        <section class="service-band">
+          <div class="section-heading">
+            <span id="printingSectionKicker" data-i18n="printingPage.sectionKicker">What we print</span>
+            <h2 id="printingSectionTitle" data-i18n="printingPage.sectionTitle">Business, event and everyday printing</h2>
+          </div>
+          <div id="printingServiceCards" class="service-card-grid">
+            <article>
+              <h3 data-i18n="printingPage.card1Title">Business Materials</h3>
+              <ul>
+                <li data-i18n="printingPage.card1Item1">Business cards</li>
+                <li data-i18n="printingPage.card1Item2">Flyers and brochures</li>
+                <li data-i18n="printingPage.card1Item3">Postcards and menus</li>
+                <li data-i18n="printingPage.card1Item4">Invoices and forms</li>
+              </ul>
+            </article>
+            <article>
+              <h3 data-i18n="printingPage.card2Title">Signs and Display</h3>
+              <ul>
+                <li data-i18n="printingPage.card2Item1">Banners and posters</li>
+                <li data-i18n="printingPage.card2Item2">Window vinyl</li>
+                <li data-i18n="printingPage.card2Item3">Yard signs</li>
+                <li data-i18n="printingPage.card2Item4">Car signs and lettering</li>
+              </ul>
+            </article>
+            <article>
+              <h3 data-i18n="printingPage.card3Title">Custom Products</h3>
+              <ul>
+                <li data-i18n="printingPage.card3Item1">Stickers and labels</li>
+                <li data-i18n="printingPage.card3Item2">T-shirts</li>
+                <li data-i18n="printingPage.card3Item3">Embroidery coordination</li>
+                <li data-i18n="printingPage.card3Item4">Special print requests</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="printingProcessSteps" class="process-strip" aria-label="Printing process">
+          <div><strong>1</strong><span data-i18n="printingPage.step1">Send your file or idea</span></div>
+          <div><strong>2</strong><span data-i18n="printingPage.step2">Confirm size, quantity and finish</span></div>
+          <div><strong>3</strong><span data-i18n="printingPage.step3">Approve and print</span></div>
+          <div><strong>4</strong><span data-i18n="printingPage.step4">Pick up or coordinate delivery</span></div>
+        </section>
+
+        <section class="service-cta">
+          <div>
+            <h2 id="printingCtaTitle" data-i18n="printingPage.ctaTitle">Need a price?</h2>
+            <p id="printingCtaCopy" data-i18n="printingPage.ctaCopy">Send quantity, size, material, colors and deadline so we can quote it correctly.</p>
+          </div>
+          <a id="printingCtaButton" class="action-gradient" href="contact.html" data-i18n="printingPage.ctaButton">Contact Next Print NY</a>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-container">
+          <section class="footer-col footer-brand">
+            <img class="footer-logo" src="assets/logo-clear.svg" alt="Next Print NY" />
+            <p>Printing, Signs, Banners & Custom Design Solutions for your business, events and brand.</p>
+            <div class="socials">
+              <a href="https://www.facebook.com/" target="_blank" rel="noreferrer" aria-label="Facebook">f</a>
+              <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram">◎</a>
+              <a href="mailto:nextprintny@gmail.com" aria-label="Email">✉</a>
+            </div>
+          </section>
+
+          <section class="footer-col">
+            <h4>Quick Links</h4>
+            <a href="index.html">Main Site</a>
+            <a href="banner-designer/">Signs &amp; Banners</a>
+            <a href="banner-designer/designer">Banner Designer</a>
+            <a href="tshirt.html">T-Shirts &amp; Apparel</a>
+            <a href="printing.html">Print Products</a>
+            <a href="contact.html">Contact Us</a>
+          </section>
+
+          <section class="footer-col">
+            <h4>Services</h4>
+            <a href="printing.html#banners">Banners</a>
+            <a href="printing.html#banners">Vinyl Banners</a>
+            <a href="printing.html#retractable-banners">Retractable Banners</a>
+            <a href="printing.html#yard-signs">Yard Signs</a>
+            <a href="printing.html#stickers">Decals &amp; Stickers</a>
+            <a href="index.html#copies">Printing &amp; Copies</a>
+          </section>
+
+          <section class="footer-col footer-contact">
+            <h4>Contact</h4>
+            <p>☎ 239 333 7935</p>
+            <p>📍 Brooklyn, NY</p>
+            <p>🕘 Mon - Sat: 9AM - 7PM</p>
+            <p>✉ nextprintny@gmail.com</p>
+          </section>
+
+          <section class="footer-col footer-why">
+            <h4>Why Next Print NY?</h4>
+            <p>✔ High Quality Printing</p>
+            <p>✔ Fast Turnaround</p>
+            <p>✔ Competitive Pricing</p>
+            <p>✔ Excellent Customer Service</p>
+          </section>
+        </div>
+
+        <div class="footer-bottom">© 2026 Next Print NY. All Rights Reserved.</div>
+      </footer>
+    </div>
+    <script src="script.js?v=20260618-0720"></script>
+    <script src="printing-catalog.js?v=20260618-printing-template"></script>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "rewrites": [
+    {
+      "source": "/banner-designer/designer",
+      "destination": "/banner-designer/index.html"
+    }
+  ],
+  "functions": {
+    "api/chat.js": {
+      "maxDuration": 10
+    },
+    "api/upload.js": {
+      "maxDuration": 10
+    },
+    "api/admin.js": {
+      "maxDuration": 10
+    },
+    "api/website-orders.js": {
+      "maxDuration": 10
+    },
+    "api/paypal.js": {
+      "maxDuration": 10
+    },
+    "api/order.js": {
+      "maxDuration": 10
+    },
+    "api/track-order.js": {
+      "maxDuration": 10
+    },
+    "api/member.js": {
+      "maxDuration": 10
+    }
+  }
+}

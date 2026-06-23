@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Track your Next Print NY order status by order number." />
+    <title>Track Order | Next Print NY</title>
+    <link rel="icon" href="assets/logo.png" />
+    <link rel="stylesheet" href="styles.css?v=20260617-2325" />
+    <link rel="stylesheet" href="full-wide.css?v=20260621-full-wide" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <section class="reseller-strip" aria-label="Reseller program">
+        <div>
+          <strong data-i18n="home.reseller.title">🔥 Reseller Program Available</strong>
+          <span data-i18n="home.reseller.copy">Get wholesale pricing and grow your own print business.</span>
+        </div>
+        <a href="https://wa.me/12393337935?text=I%20want%20to%20apply%20for%20the%20Next%20Print%20NY%20reseller%20program" target="_blank" rel="noreferrer" data-i18n="home.reseller.button">Apply for Wholesale</a>
+      </section>
+
+      <header class="top-nav site-main-header">
+        <a class="brand" href="index.html" aria-label="Next Print NY home">
+          <img src="assets/logo.png" alt="Next Print NY" />
+        </a>
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav id="menu" class="menu" aria-label="Main navigation">
+          <a href="index.html" data-i18n="home.nav.home">Home</a>
+          <a href="banner-designer/" data-i18n="home.nav.signs">Signs & Banners</a>
+          <a href="tshirt.html" data-i18n="home.nav.shirts">T-Shirts & Apparel</a>
+          <a href="index.html#copies" data-i18n="home.nav.copies">Bulk Copies</a>
+          <a href="printing.html" data-i18n="home.nav.products">Print Products</a>
+          <a href="websites-demo/" data-i18n="home.nav.websites">Websites</a>
+          <a class="active" href="tracking.html" data-i18n="tracking.nav">Track Order</a>
+          <a href="about.html" data-i18n="home.nav.about">About Us</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="phone-pill" href="tel:+12393337935">239 333 7935</a>
+          <div class="language-switch" aria-label="Change language">
+            <button type="button" class="active" data-lang="en" data-shirt-lang="en">EN</button>
+            <button type="button" data-lang="es" data-shirt-lang="es">ES</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="tracking-page">
+        <section class="tracking-hero">
+          <span data-i18n="tracking.kicker">Order tracking</span>
+          <h1 data-i18n="tracking.title">Check your order status.</h1>
+          <p data-i18n="tracking.copy">Enter your order number to see the latest status and next step.</p>
+        </section>
+
+        <section class="tracking-workspace">
+          <form id="trackingForm" class="tracking-form">
+            <label>
+              <span data-i18n="tracking.label">Order number</span>
+              <input
+                id="trackingInput"
+                name="order"
+                type="text"
+                autocomplete="off"
+                required
+                placeholder="NP-260603-123456"
+                data-i18n-placeholder="tracking.placeholder"
+              />
+            </label>
+            <button class="action-gradient" type="submit" data-i18n="tracking.button">Track order</button>
+            <p id="trackingStatus" class="tracking-status" aria-live="polite"></p>
+          </form>
+
+          <section id="trackingResult" class="tracking-result" hidden>
+            <div class="tracking-summary">
+              <span data-i18n="tracking.resultKicker">Current status</span>
+              <h2 id="trackingOrderTitle">NP-000000</h2>
+              <p>
+                <span data-i18n="tracking.customer">Customer</span>:
+                <strong id="trackingCustomer">-</strong>
+              </p>
+              <p>
+                <span data-i18n="tracking.updated">Last updated</span>:
+                <strong id="trackingUpdated">-</strong>
+              </p>
+              <p id="trackingAmountRow" hidden>
+                <span data-i18n="tracking.amount">Amount due</span>:
+                <strong id="trackingAmount">-</strong>
+              </p>
+            </div>
+
+            <div class="tracking-timeline" aria-label="Order status timeline">
+              <div data-status-step="new">
+                <strong>1</strong>
+                <span data-i18n="tracking.status.new">Received</span>
+              </div>
+              <div data-status-step="in_progress">
+                <strong>2</strong>
+                <span data-i18n="tracking.status.in_progress">In review</span>
+              </div>
+              <div data-status-step="waiting">
+                <strong>3</strong>
+                <span data-i18n="tracking.status.waiting">Waiting</span>
+              </div>
+              <div data-status-step="paid">
+                <strong>4</strong>
+                <span data-i18n="tracking.status.paid">Payment received</span>
+              </div>
+              <div data-status-step="completed">
+                <strong>5</strong>
+                <span data-i18n="tracking.status.completed">Completed</span>
+              </div>
+            </div>
+
+            <article class="payment-card">
+              <div>
+                <span data-i18n="payment.kicker">Secure payment</span>
+                <h3 data-i18n="payment.title">Online checkout</h3>
+                <p data-i18n="payment.copy">Use your order number to open checkout after we confirm your total.</p>
+              </div>
+              <dl>
+                <div>
+                  <dt data-i18n="payment.orderNumber">Order number</dt>
+                  <dd id="trackingPaymentNote">NP-000000</dd>
+                </div>
+              </dl>
+              <div class="payment-actions">
+                <button id="trackingCopyNumber" type="button" data-i18n="payment.copyOrder">Copy order number</button>
+                <a id="trackingPaymentLink" href="payments.html" data-i18n="payment.payButton">Open checkout</a>
+              </div>
+            </article>
+
+            <div class="service-actions">
+              <a id="trackingWhatsapp" class="action-gradient" href="https://wa.me/12393337935" target="_blank" rel="noreferrer" data-i18n="tracking.whatsapp">
+                Ask on WhatsApp
+              </a>
+              <a class="outline-button" href="order.html" data-i18n="order.nav">Start Order</a>
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-container">
+          <section class="footer-col footer-brand">
+            <img class="footer-logo" src="assets/logo-clear.svg" alt="Next Print NY" />
+            <p>Printing, Signs, Banners & Custom Design Solutions for your business, events and brand.</p>
+            <div class="socials">
+              <a href="https://www.facebook.com/" target="_blank" rel="noreferrer" aria-label="Facebook">f</a>
+              <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram">◎</a>
+              <a href="mailto:nextprintny@gmail.com" aria-label="Email">✉</a>
+            </div>
+          </section>
+
+          <section class="footer-col">
+            <h4>Quick Links</h4>
+            <a href="index.html">Main Site</a>
+            <a href="banner-designer/">Signs &amp; Banners</a>
+            <a href="banner-designer/designer">Banner Designer</a>
+            <a href="tshirt.html">T-Shirts &amp; Apparel</a>
+            <a href="printing.html">Print Products</a>
+            <a href="contact.html">Contact Us</a>
+          </section>
+
+          <section class="footer-col">
+            <h4>Services</h4>
+            <a href="printing.html#banners">Banners</a>
+            <a href="printing.html#banners">Vinyl Banners</a>
+            <a href="printing.html#banners">Retractable Banners</a>
+            <a href="printing.html#banners">Yard Signs</a>
+            <a href="printing.html">Decals &amp; Stickers</a>
+            <a href="index.html#copies">Printing &amp; Copies</a>
+          </section>
+
+          <section class="footer-col footer-contact">
+            <h4>Contact</h4>
+            <p>☎ 239 333 7935</p>
+            <p>📍 Brooklyn, NY</p>
+            <p>🕘 Mon - Sat: 9AM - 7PM</p>
+            <p>✉ nextprintny@gmail.com</p>
+          </section>
+
+          <section class="footer-col footer-why">
+            <h4>Why Next Print NY?</h4>
+            <p>✔ High Quality Printing</p>
+            <p>✔ Fast Turnaround</p>
+            <p>✔ Competitive Pricing</p>
+            <p>✔ Excellent Customer Service</p>
+          </section>
+        </div>
+
+        <div class="footer-bottom">© 2026 Next Print NY. All Rights Reserved.</div>
+      </footer>
+    </div>
+    <script src="script.js?v=20260617-2325"></script>
+    <script src="tracking.js?v=20260617-2325"></script>
+  </body>
+</html>

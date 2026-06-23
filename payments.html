@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Open a secure Next Print NY checkout using your order number." />
+    <title>Secure Checkout | Next Print NY</title>
+    <link rel="icon" href="assets/logo.png" />
+    <link rel="stylesheet" href="styles.css?v=20260618-0015" />
+    <link rel="stylesheet" href="full-wide.css?v=20260621-full-wide" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <section class="reseller-strip" aria-label="Reseller program">
+        <div>
+          <strong data-i18n="home.reseller.title">🔥 Reseller Program Available</strong>
+          <span data-i18n="home.reseller.copy">Get wholesale pricing and grow your own print business.</span>
+        </div>
+        <a href="https://wa.me/12393337935?text=I%20want%20to%20apply%20for%20the%20Next%20Print%20NY%20reseller%20program" target="_blank" rel="noreferrer" data-i18n="home.reseller.button">Apply for Wholesale</a>
+      </section>
+
+      <header class="top-nav site-main-header">
+        <a class="brand" href="index.html" aria-label="Next Print NY home">
+          <img src="assets/logo.png" alt="Next Print NY" />
+        </a>
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav id="menu" class="menu" aria-label="Main navigation">
+          <a href="index.html" data-i18n="home.nav.home">Home</a>
+          <a href="banner-designer/" data-i18n="home.nav.signs">Signs & Banners</a>
+          <a href="tshirt.html" data-i18n="home.nav.shirts">T-Shirts & Apparel</a>
+          <a href="index.html#copies" data-i18n="home.nav.copies">Bulk Copies</a>
+          <a href="printing.html" data-i18n="home.nav.products">Print Products</a>
+          <a href="websites-demo/" data-i18n="home.nav.websites">Websites</a>
+          <a href="tracking.html" data-i18n="tracking.nav">Track Order</a>
+          <a href="about.html" data-i18n="home.nav.about">About Us</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="phone-pill" href="tel:+12393337935">239 333 7935</a>
+          <div class="language-switch" aria-label="Change language">
+            <button type="button" class="active" data-lang="en" data-shirt-lang="en">EN</button>
+            <button type="button" data-lang="es" data-shirt-lang="es">ES</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="payment-page">
+        <section class="tracking-hero">
+          <span data-i18n="payment.kicker">Secure payment</span>
+          <h1 data-i18n="payment.pageTitle">Secure Online Checkout</h1>
+          <p data-i18n="payment.pageCopy">
+            Enter or confirm your order number to open the secure checkout once your total is ready.
+          </p>
+        </section>
+
+        <section class="payment-workspace">
+          <article class="payment-card large">
+            <div>
+              <span data-i18n="payment.orderNumber">Order number</span>
+              <h3 id="paymentOrderNote">NP-000000</h3>
+              <p data-i18n="payment.copy">Use your order number to open checkout after we confirm your total.</p>
+              <p class="payment-order-note">
+                <span data-i18n="payment.checkoutStatus">Checkout status</span>:
+                <strong data-i18n="payment.checkoutPending">PayPal checkout ready</strong>
+              </p>
+            </div>
+            <form id="paymentCheckoutForm" class="payment-checkout-form">
+              <label>
+                Order number
+                <input id="paymentOrderInput" name="orderNumber" type="text" placeholder="NP-000000" required />
+              </label>
+              <label>
+                Confirmed total
+                <input id="paymentAmountInput" name="amount" type="number" min="1" step="0.01" placeholder="499.00" required />
+              </label>
+              <section class="embedded-paypal-panel compact">
+                <div>
+                  <span>Secure embedded checkout</span>
+                  <h2>Pay with PayPal or card</h2>
+                  <p>Complete payment here without leaving this page.</p>
+                </div>
+                <div id="paymentPayPalButtons" class="paypal-buttons-shell" aria-label="PayPal checkout buttons"></div>
+                <small>Debit or credit card appears when PayPal makes it available for this checkout.</small>
+              </section>
+
+              <button id="paymentPayFallback" type="submit" hidden>Open backup PayPal checkout</button>
+              <p id="paymentStatus" class="payment-status" aria-live="polite"></p>
+            </form>
+            <ol class="payment-steps">
+              <li data-i18n="payment.step1">Confirm the total with Next Print NY.</li>
+              <li data-i18n="payment.step2">Open the secure checkout link for your order.</li>
+              <li data-i18n="payment.step3">Complete payment online.</li>
+              <li data-i18n="payment.step4">When payment is confirmed, your order status updates to Payment received.</li>
+            </ol>
+            <div class="service-actions">
+              <a class="action-gradient" href="order.html" data-i18n="order.nav">Start Order</a>
+              <a class="outline-button" href="tracking.html" data-i18n="tracking.nav">Track Order</a>
+            </div>
+          </article>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-container">
+          <section class="footer-col footer-brand">
+            <img class="footer-logo" src="assets/logo-clear.svg" alt="Next Print NY" />
+            <p>Printing, Signs, Banners & Custom Design Solutions for your business, events and brand.</p>
+            <div class="socials">
+              <a href="https://www.facebook.com/" target="_blank" rel="noreferrer" aria-label="Facebook">f</a>
+              <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram">◎</a>
+              <a href="mailto:nextprintny@gmail.com" aria-label="Email">✉</a>
+            </div>
+          </section>
+
+          <section class="footer-col">
+            <h4>Quick Links</h4>
+            <a href="index.html">Main Site</a>
+            <a href="banner-designer/">Signs &amp; Banners</a>
+            <a href="banner-designer/designer">Banner Designer</a>
+            <a href="tshirt.html">T-Shirts &amp; Apparel</a>
+            <a href="printing.html">Print Products</a>
+            <a href="contact.html">Contact Us</a>
+          </section>
+
+          <section class="footer-col">
+            <h4>Services</h4>
+            <a href="printing.html#banners">Banners</a>
+            <a href="printing.html#banners">Vinyl Banners</a>
+            <a href="printing.html#banners">Retractable Banners</a>
+            <a href="printing.html#banners">Yard Signs</a>
+            <a href="printing.html">Decals &amp; Stickers</a>
+            <a href="index.html#copies">Printing &amp; Copies</a>
+          </section>
+
+          <section class="footer-col footer-contact">
+            <h4>Contact</h4>
+            <p>☎ 239 333 7935</p>
+            <p>📍 Brooklyn, NY</p>
+            <p>🕘 Mon - Sat: 9AM - 7PM</p>
+            <p>✉ nextprintny@gmail.com</p>
+          </section>
+
+          <section class="footer-col footer-why">
+            <h4>Why Next Print NY?</h4>
+            <p>✔ High Quality Printing</p>
+            <p>✔ Fast Turnaround</p>
+            <p>✔ Competitive Pricing</p>
+            <p>✔ Excellent Customer Service</p>
+          </section>
+        </div>
+
+        <div class="footer-bottom">© 2026 Next Print NY. All Rights Reserved.</div>
+      </footer>
+    </div>
+    <script src="script.js?v=20260617-2325"></script>
+    <script src="paypal-checkout.js?v=20260618-embedded"></script>
+    <script src="payments.js?v=20260618-embedded"></script>
+  </body>
+</html>
